@@ -1,0 +1,23 @@
+.button-appoiment {
+    border: 1px solid #FF3811;
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: #FF3811;
+}
+.button-appoiment:hover{
+    background-color: #FF3811;
+    color: white;
+}
+.button-discover{
+    border: 1px solid #FF3811;
+    background-color: #FF3811;
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: white;
+}
+.services-img img{
+    border-radius: 30px;
+}
+.input-log{
+    border: 1px solid gray;
+}
