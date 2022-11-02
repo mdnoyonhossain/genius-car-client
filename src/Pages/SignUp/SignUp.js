@@ -1,11 +1,17 @@
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import login from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../Context/UserContext';
 
 const SignUp = () => {
     const {createUser, userUpdateProfile, userGoogleSignIn} = useContext(AuthContext);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location?.state?.from?.pathname || '/';
+
+    navigate(from, { replace: true })
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -22,6 +28,7 @@ const SignUp = () => {
             updateProfileUser(name)
             toast.success('SugnUp Successfull');
             form.reset();
+            navigate(from, {replace: true});
         })
         .catch(error => {
             console.error(error);
@@ -45,6 +52,7 @@ const SignUp = () => {
             const user = result.user;
             console.log(user);
             toast.success('Google Successfull SignUp')
+            navigate(from, {replace: true});
         })
         .catch(error => toast.error(error.message))
     }

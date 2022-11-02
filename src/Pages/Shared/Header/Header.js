@@ -6,18 +6,25 @@ import { AuthContext } from '../../../Context/UserContext';
 import './Header.css';
 
 const Header = () => {
-    const {logOut} = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
 
     const userLogOut = () => {
         logOut()
-        .then(() => {})
-        .catch(error => toast.error(error.message))
+            .then(() => { })
+            .catch(error => toast.error(error.message))
     }
 
     const menuItems = <>
         <li className='font-semibold mr-2'><Link to="/">Home</Link></li>
-        <li className='font-semibold mr-2'><Link to="/login">Login</Link></li>
-        <li onClick={userLogOut} className='font-semibold mr-2'><Link>Logout</Link></li>
+        <li className='font-semibold mr-2'><Link to='/orders'>Orders</Link></li>
+        {
+            user?.uid ?
+                <>
+                <li onClick={userLogOut} className='font-semibold mr-2'><Link>Logout</Link></li>
+                </>
+                :
+                <li className='font-semibold mr-2'><Link to="/login">Login</Link></li>
+        }
     </>
 
     return (
