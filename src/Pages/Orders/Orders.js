@@ -4,19 +4,31 @@ import OrderRow from './OrderRow';
 import orderImg from '../../assets/images/banner/1.jpg'
 
 const Orders = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/orders/?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => setOrders(data))
+        fetch(`https://genius-car-server.vercel.app/orders/?email=${user?.email}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('genius-token')}}`
+            }
+        })
+            .then(res => {
+                if(res.status === 401 || res.status === 403){
+                    logOut()
+                }
+                res.json()
+            })
+            .then(data => {
+                console.log('inside', data)
+                // setOrders(data)
+            })
     }, [user?.email]);
 
     const handleDelete = id => {
         const proceed = window.confirm('Are You Sure Delete Orders');
         if (proceed) {
-            fetch(`http://localhost:5000/orders/${id}`, {
+            fetch(`https://genius-car-server.vercel.app/orders/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -31,7 +43,7 @@ const Orders = () => {
     }
 
     const handleUpdateStatus = id => {
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://genius-car-server.vercel.app/orders/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
